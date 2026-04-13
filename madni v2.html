@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مدنی ڈیجیٹل سکلز انسٹیٹیوٹ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange:#e86c00;--orange2:#ff8c2a;--orange-light:#fff3e6;--orange-pale:#fff8f0;
+  --navy:#0a1e3d;--navy2:#132d5e;--navy3:#1a3a7a;--navy-light:#e8eef8;
+  --white:#ffffff;--bg:#f2f5fb;--bg2:#e6ecf7;
+  --text:#0a1e3d;--text2:#2a4070;--text3:#7a90b8;
+  --green:#1a7a4a;--green-bg:#e6f5ee;
+  --red:#c0202a;--red-bg:#faeaea;
+  --yellow:#c07800;--yellow-bg:#fff8e0;
+  --border:#c8d8f0;
+  --shadow:0 2px 16px rgba(10,30,61,0.10);
+  --shadow2:0 4px 32px rgba(10,30,61,0.16);
+  --radius:12px;--radius2:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Nastaliq Urdu','Noto Sans Arabic',serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+
+/* HEADER */
+header{background:linear-gradient(120deg,var(--navy) 0%,var(--navy3) 60%,var(--orange) 100%);color:#fff;padding:0 28px;height:80px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow2);position:sticky;top:0;z-index:200;border-bottom:3px solid var(--orange);}
+.hdr-left{display:flex;align-items:center;gap:14px;}
+.hdr-logo{width:50px;height:50px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 2px 8px rgba(232,108,0,.4);}
+.hdr-title{font-size:19px;font-weight:700;line-height:1.3;}
+.hdr-sub{font-size:11px;color:#ffcf99;margin-top:2px;}
+.hdr-right{text-align:left;font-size:12px;color:#ffcf99;line-height:1.7;}
+#live-time{font-size:15px;font-weight:700;color:#fff;font-family:'Noto Sans Arabic',sans-serif;}
+
+/* NOTIFICATIONS BELL */
+.notif-btn{position:relative;background:none;border:none;font-size:22px;cursor:pointer;padding:4px 8px;color:#fff;}
+.notif-badge{position:absolute;top:0;right:0;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Arabic',sans-serif;}
+.notif-panel{position:absolute;top:74px;left:20px;width:340px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow2);border:1px solid var(--border);z-index:300;display:none;max-height:400px;overflow-y:auto;}
+.notif-panel.open{display:block;}
+.notif-header{padding:14px 16px;font-weight:700;color:var(--navy);border-bottom:1px solid var(--border);font-size:14px;}
+.notif-item{padding:12px 16px;border-bottom:1px solid var(--bg2);font-size:12px;display:flex;gap:10px;align-items:flex-start;}
+.notif-item .ni-icon{font-size:18px;flex-shrink:0;}
+.notif-item .ni-text{color:var(--text2);line-height:1.6;}
+.notif-item .ni-name{font-weight:700;color:var(--navy);}
+.notif-item.warn{background:var(--yellow-bg);}
+.notif-item.over{background:var(--red-bg);}
+
+/* DASHBOARD */
+.dashboard{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;padding:20px 28px 0;}
+.dash-card{background:#fff;border-radius:var(--radius);padding:14px 10px 12px;text-align:center;box-shadow:var(--shadow);border-top:4px solid var(--border);transition:transform .18s,box-shadow .18s;cursor:default;}
+.dash-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);}
+.dash-card.orange{border-top-color:var(--orange);}
+.dash-card.navy{border-top-color:var(--navy);}
+.dash-card.green{border-top-color:var(--green);}
+.dash-card.red{border-top-color:var(--red);}
+.dash-label{font-size:10px;color:var(--text3);margin-bottom:7px;line-height:1.5;}
+.dash-value{font-size:20px;font-weight:700;font-family:'Noto Sans Arabic',sans-serif;}
+.dash-card.orange .dash-value{color:var(--orange);}
+.dash-card.navy .dash-value{color:var(--navy);}
+.dash-card.green .dash-value{color:var(--green);}
+.dash-card.red .dash-value{color:var(--red);}
+
+/* TABS */
+.tabs-bar{display:flex;gap:4px;padding:18px 28px 0;border-bottom:2px solid var(--border);margin-bottom:22px;overflow-x:auto;}
+.tab-btn{padding:9px 18px;border:none;background:none;font-family:inherit;font-size:13px;color:var(--text3);cursor:pointer;border-radius:var(--radius2) var(--radius2) 0 0;border-bottom:3px solid transparent;transition:all .18s;font-weight:500;white-space:nowrap;}
+.tab-btn:hover{color:var(--navy);background:var(--bg2);}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--orange);font-weight:700;background:#fff;}
+
+/* PANELS */
+.tab-panel{display:none;padding:0 28px 32px;}
+.tab-panel.active{display:block;}
+
+/* SECTION CARD */
+.section-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:22px;border:1px solid var(--border);}
+.section-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--orange-light);display:flex;align-items:center;gap:10px;}
+.section-title .icon{width:32px;height:32px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.span2{grid-column:span 2;}
+.form-group.span3{grid-column:span 3;}
+.form-group.span4{grid-column:span 4;}
+label{font-size:11px;color:var(--text2);font-weight:600;}
+input,select,textarea{border:1.5px solid var(--border);border-radius:var(--radius2);padding:8px 11px;font-family:inherit;font-size:13px;color:var(--text);background:#fff;transition:border-color .15s,box-shadow .15s;width:100%;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,108,0,.10);}
+textarea{resize:vertical;min-height:65px;}
+
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:var(--radius2);border:none;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:7px;}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-primary:hover{background:var(--navy2);transform:translateY(-1px);}
+.btn-orange{background:var(--orange);color:#fff;}
+.btn-orange:hover{background:var(--orange2);transform:translateY(-1px);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:#155e38;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-red:hover{background:#8a1818;}
+.btn-outline{background:none;color:var(--navy);border:1.5px solid var(--navy);}
+.btn-outline:hover{background:var(--navy);color:#fff;}
+.btn-sm{padding:5px 12px;font-size:11px;}
+.btn-row{display:flex;gap:8px;margin-top:6px;align-items:center;flex-wrap:wrap;}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border-radius:var(--radius2);}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+thead tr{background:var(--navy);color:#fff;}
+thead th{padding:11px 12px;text-align:right;font-weight:600;font-size:11px;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--bg2);transition:background .12s;}
+tbody tr:hover{background:var(--bg);}
+tbody tr.row-red{background:var(--red-bg)!important;}
+tbody tr.row-yellow{background:var(--yellow-bg)!important;}
+tbody tr.row-complete{background:var(--red-bg)!important;opacity:.85;}
+tbody tr.row-week{background:var(--yellow-bg)!important;}
+td{padding:10px 12px;color:var(--text);vertical-align:middle;white-space:nowrap;}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;font-family:'Noto Sans Arabic',sans-serif;}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-red{background:var(--red-bg);color:var(--red);}
+.badge-orange{background:var(--orange-light);color:var(--orange);}
+.badge-navy{background:var(--navy-light);color:var(--navy);}
+.badge-yellow{background:var(--yellow-bg);color:var(--yellow);}
+.badge-blue{background:#e0e8ff;color:#1a3a7a;}
+
+/* SEARCH ROW */
+.search-row{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;}
+.search-wrap{position:relative;flex:1;min-width:180px;}
+.search-wrap input{padding-right:34px;}
+.search-icon{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text3);pointer-events:none;}
+
+/* GENDER GRID */
+.gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.gender-box{background:var(--bg);border-radius:var(--radius2);padding:14px;border:1px solid var(--border);}
+.gender-box h3{font-size:13px;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+
+/* CHART */
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:140px;padding:8px 0;}
+.chart-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
+.chart-bar{width:100%;border-radius:4px 4px 0 0;min-height:4px;transition:height .4s;}
+.chart-lbl{font-size:9px;color:var(--text3);font-family:'Noto Sans Arabic',sans-serif;text-align:center;}
+.chart-val{font-size:9px;font-weight:700;font-family:'Noto Sans Arabic',sans-serif;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,30,61,.55);z-index:999;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:var(--radius);padding:26px;width:90%;max-width:620px;box-shadow:var(--shadow2);animation:fadeUp .22s ease;max-height:90vh;overflow-y:auto;}
+.modal-lg{max-width:780px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.modal-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);line-height:1;}
+.modal-close:hover{color:var(--red);}
+
+/* RECEIPT */
+@media print{body *{visibility:hidden;}#print-area,#print-area *{visibility:visible;}#print-area{position:fixed;top:0;right:0;width:100%;background:#fff;z-index:9999;padding:28px;}}
+.receipt{border:2px solid var(--navy);border-radius:var(--radius);padding:24px;}
+.receipt-header{text-align:center;margin-bottom:18px;padding-bottom:14px;border-bottom:2px dashed var(--orange);}
+.receipt-header h2{color:var(--navy);font-size:18px;}
+.receipt-header p{color:var(--text2);font-size:11px;margin-top:3px;}
+.receipt-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--border);font-size:12px;}
+.receipt-total{background:var(--navy);color:#fff;padding:11px 14px;border-radius:var(--radius2);display:flex;justify-content:space-between;font-weight:700;margin-top:10px;font-size:14px;}
+
+/* ALERT */
+.alert{padding:11px 14px;border-radius:var(--radius2);font-size:12px;margin-bottom:14px;display:none;align-items:center;gap:9px;}
+.alert.show{display:flex;}
+.alert-success{background:var(--green-bg);color:var(--green);border:1px solid #a8d8bf;}
+.alert-error{background:var(--red-bg);color:var(--red);border:1px solid #f0b0b0;}
+
+/* REPORT BOXES */
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.report-box{background:var(--bg);border-radius:var(--radius2);padding:18px;border:1px solid var(--border);}
+.report-box h3{font-size:13px;color:var(--navy);margin-bottom:12px;}
+.report-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--border);font-size:12px;}
+.report-row:last-child{border-bottom:none;}
+.report-row .lbl{color:var(--text2);}
+.report-row .val{font-weight:700;font-family:'Noto Sans Arabic',sans-serif;}
+.val.green{color:var(--green)}.val.red{color:var(--red)}.val.orange{color:var(--orange)}
+
+/* PROGRESS REPORT */
+.progress-card{background:var(--bg);border-radius:var(--radius2);padding:14px;margin-bottom:10px;border-right:4px solid var(--orange);}
+.progress-card .pc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.progress-card .pc-name{font-weight:700;font-size:13px;color:var(--navy);}
+.progress-card .pc-date{font-size:10px;color:var(--text3);}
+.progress-card .pc-text{font-size:12px;color:var(--text2);line-height:1.7;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--navy2);border-radius:4px;}
+
+/* RESPONSIVE */
+@media(max-width:1200px){.dashboard{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:800px){
+  .dashboard{grid-template-columns:repeat(2,1fr);padding:14px;}
+  .form-grid{grid-template-columns:repeat(2,1fr);}
+  .report-grid{grid-template-columns:1fr;}
+  .gender-grid{grid-template-columns:1fr;}
+  .tab-panel{padding:0 12px 24px;}
+  header{padding:0 14px;}
+  .hdr-title{font-size:14px;}
+}
+@media(max-width:500px){
+  .form-grid{grid-template-columns:1fr;}
+  .form-group.span2,.form-group.span3,.form-group.span4{grid-column:span 1;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr-left">
+    <div class="hdr-logo">🎓</div>
+    <div>
+      <div class="hdr-title">مدنی ڈیجیٹل سکلز انسٹیٹیوٹ قصبہ گجرات</div>
+      <div class="hdr-sub">مکمل انتظامی نظام — Prepared by: Malik Rashid Manjotha CEO</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <button class="notif-btn" onclick="toggleNotif()" id="notif-btn">🔔<span class="notif-badge" id="notif-count">0</span></button>
+    <div class="hdr-right">
+      <div id="live-time">00:00:00</div>
+      <div id="live-date"></div>
+    </div>
+  </div>
+</header>
+
+<!-- NOTIFICATIONS PANEL -->
+<div class="notif-panel" id="notif-panel">
+  <div class="notif-header">🔔 اطلاعات</div>
+  <div id="notif-list"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+  <div class="dash-card navy"><div class="dash-label">کل طلباء</div><div class="dash-value" id="d-students">0</div></div>
+  <div class="dash-card navy"><div class="dash-label">اسٹاف</div><div class="dash-value" id="d-staff">0</div></div>
+  <div class="dash-card orange"><div class="dash-label">آج وصولی</div><div class="dash-value" id="d-today">0</div></div>
+  <div class="dash-card orange"><div class="dash-label">ماہانہ وصولی</div><div class="dash-value" id="d-month">0</div></div>
+  <div class="dash-card orange"><div class="dash-label">ماہانہ اخراجات</div><div class="dash-value" id="d-month-exp">0</div></div>
+  <div class="dash-card green"><div class="dash-label">خالص منافع</div><div class="dash-value" id="d-profit">0</div></div>
+  <div class="dash-card red"><div class="dash-label">کل بقایا</div><div class="dash-value" id="d-pending">0</div></div>
+  <div class="dash-card red"><div class="dash-label">کورس ختم قریب</div><div class="dash-value" id="d-expiring">0</div></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="openTab('students',this)">👨‍🎓 طلباء</button>
+  <button class="tab-btn" onclick="openTab('staff',this)">👔 اسٹاف</button>
+  <button class="tab-btn" onclick="openTab('fees',this)">💰 فیس وصولی</button>
+  <button class="tab-btn" onclick="openTab('expenses',this)">📤 اخراجات</button>
+  <button class="tab-btn" onclick="openTab('charts',this)">📈 چارٹس</button>
+  <button class="tab-btn" onclick="openTab('reports',this)">📊 رپورٹس</button>
+  <button class="tab-btn" onclick="openTab('progress',this)">📝 پروگریس</button>
+  <button class="tab-btn" onclick="openTab('settings',this)">⚙️ سیٹنگز</button>
+</div>
+
+<!-- ===== STUDENTS TAB ===== -->
+<div class="tab-panel active" id="tab-students">
+  <div id="alrt-s" class="alert alert-success"></div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">➕</div> نیا طالب علم / ترمیم</div>
+    <div class="form-grid">
+      <input type="hidden" id="s-id">
+      <div class="form-group"><label>نام *</label><input id="s-name" placeholder="پورا نام"></div>
+      <div class="form-group"><label>والد کا نام *</label><input id="s-father" placeholder="والد کا نام"></div>
+      <div class="form-group"><label>والدین کا موبائل</label><input id="s-parent-mobile" placeholder="03XX-XXXXXXX"></div>
+      <div class="form-group"><label>طالب علم موبائل</label><input id="s-mobile" placeholder="03XX-XXXXXXX"></div>
+      <div class="form-group"><label>جنس</label><select id="s-gender"><option value="male">مرد</option><option value="female">عورت</option></select></div>
+      <div class="form-group"><label>قسم</label><select id="s-type"><option value="student">باقاعدہ طالب علم</option><option value="internship">انٹرنشپ</option></select></div>
+      <div class="form-group"><label>کورس</label><select id="s-course"><option value="">-- منتخب کریں --</option></select></div>
+      <div class="form-group"><label>کورس دورانیہ (ماہ)</label><input type="number" id="s-duration" placeholder="مثال: 6" oninput="calcEndDate()"></div>
+      <div class="form-group"><label>داخلہ تاریخ</label><input type="date" id="s-admission" oninput="calcEndDate()"></div>
+      <div class="form-group"><label>کورس ختم تاریخ</label><input type="date" id="s-end-date"></div>
+      <div class="form-group"><label>کل فیس (₨)</label><input type="number" id="s-total-fee" placeholder="0" oninput="calcInst()"></div>
+      <div class="form-group"><label>ماہانہ قسط (₨)</label><input type="number" id="s-inst" placeholder="0"></div>
+      <div class="form-group span2"><label>پتہ</label><input id="s-address" placeholder="گھر کا پتہ"></div>
+      <div class="form-group span2"><label>نوٹ</label><input id="s-note" placeholder="اضافی معلومات"></div>
+    </div>
+    <div class="btn-row" style="margin-top:16px">
+      <button class="btn btn-orange" onclick="saveStudent()">💾 محفوظ کریں</button>
+      <button class="btn btn-outline" onclick="clearSForm()">🔄 صاف</button>
+      <label class="btn btn-primary" style="cursor:pointer">📂 CSV امپورٹ<input type="file" accept=".csv" style="display:none" onchange="importCSV(event,'student')"></label>
+      <button class="btn btn-outline" onclick="exportStudentsCSV()">📥 CSV ایکسپورٹ</button>
+    </div>
+  </div>
+
+  <!-- Gender Split -->
+  <div class="gender-grid">
+    <div class="gender-box">
+      <h3>👨 مرد طلباء — فعال</h3>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>نام</th><th>کورس</th><th>بقایا</th><th>اسٹیٹس</th><th>ایکشن</th></tr></thead><tbody id="male-tbody"></tbody></table>
+      <div id="male-empty" class="alert alert-error" style="text-align:center;padding:12px;display:none;border-radius:0">کوئی مرد طالب علم نہیں</div></div>
+    </div>
+    <div class="gender-box">
+      <h3>👩 خواتین طالبات — فعال</h3>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>نام</th><th>کورس</th><th>بقایا</th><th>اسٹیٹس</th><th>ایکشن</th></tr></thead><tbody id="female-tbody"></tbody></table>
+      <div id="female-empty" class="alert alert-error" style="text-align:center;padding:12px;display:none;border-radius:0">کوئی خاتون طالبہ نہیں</div></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📋</div> تمام طلباء</div>
+    <div class="search-row">
+      <div class="search-wrap"><input id="s-search" placeholder="نام یا والد سے تلاش..." oninput="renderStudents()"><span class="search-icon">🔍</span></div>
+      <select id="sf-course" onchange="renderStudents()" style="width:160px"><option value="">تمام کورسز</option></select>
+      <select id="sf-type" onchange="renderStudents()" style="width:140px"><option value="">تمام اقسام</option><option value="student">طالب علم</option><option value="internship">انٹرنشپ</option></select>
+      <select id="sf-status" onchange="renderStudents()" style="width:130px"><option value="">تمام</option><option value="active">فعال</option><option value="inactive">غیر فعال</option></select>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>#</th><th>نام</th><th>والد</th><th>والدین موبائل</th><th>جنس</th><th>کورس</th><th>قسم</th><th>ختم تاریخ</th><th>کل فیس</th><th>جمع</th><th>بقایا</th><th>اسٹیٹس</th><th>ایکشن</th></tr></thead>
+      <tbody id="all-students-tbody"></tbody></table>
+      <div id="all-s-empty" class="alert" style="text-align:center;padding:16px;display:none">کوئی طالب علم نہیں</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STAFF TAB ===== -->
+<div class="tab-panel" id="tab-staff">
+  <div id="alrt-st" class="alert alert-success"></div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">👔</div> نیا اسٹاف ممبر / ترمیم</div>
+    <div class="form-grid">
+      <input type="hidden" id="st-id">
+      <div class="form-group"><label>نام *</label><input id="st-name" placeholder="پورا نام"></div>
+      <div class="form-group"><label>عہدہ</label><input id="st-role" placeholder="مثال: استاد، منیجر"></div>
+      <div class="form-group"><label>موبائل</label><input id="st-mobile" placeholder="03XX-XXXXXXX"></div>
+      <div class="form-group"><label>جنس</label><select id="st-gender"><option value="male">مرد</option><option value="female">عورت</option></select></div>
+      <div class="form-group"><label>شمولیت تاریخ</label><input type="date" id="st-join"></div>
+      <div class="form-group"><label>تنخواہ (₨)</label><input type="number" id="st-salary" placeholder="0"></div>
+      <div class="form-group span2"><label>نوٹ</label><input id="st-note" placeholder="اضافی معلومات"></div>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-orange" onclick="saveStaff()">💾 محفوظ کریں</button>
+      <button class="btn btn-outline" onclick="clearStForm()">🔄 صاف</button>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📋</div> اسٹاف فہرست</div>
+    <div class="table-wrap">
+      <table><thead><tr><th>#</th><th>نام</th><th>عہدہ</th><th>موبائل</th><th>جنس</th><th>شمولیت</th><th>تنخواہ</th><th>اسٹیٹس</th><th>ایکشن</th></tr></thead>
+      <tbody id="staff-tbody"></tbody></table>
+      <div id="staff-empty" style="text-align:center;padding:24px;color:var(--text3)">کوئی اسٹاف نہیں</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEES TAB ===== -->
+<div class="tab-panel" id="tab-fees">
+  <div id="alrt-f" class="alert alert-success"></div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">💰</div> فیس وصولی</div>
+    <div class="form-grid">
+      <div class="form-group"><label>طالب علم *</label><select id="f-student" onchange="fillFeeInfo()"><option value="">-- منتخب کریں --</option></select></div>
+      <div class="form-group"><label>رقم (₨) *</label><input type="number" id="f-amount" placeholder="0"></div>
+      <div class="form-group"><label>تاریخ *</label><input type="date" id="f-date"></div>
+      <div class="form-group"><label>مہینہ</label><input id="f-month" placeholder="مثال: جنوری 2025"></div>
+      <div class="form-group"><label>طریقہ</label><select id="f-method"><option>نقد</option><option>بینک ٹرانسفر</option><option>ایزی پیسہ</option><option>جاز کیش</option><option>چیک</option></select></div>
+      <div class="form-group"><label>نوٹ</label><input id="f-note" placeholder="اضافی نوٹ"></div>
+    </div>
+    <div style="background:var(--orange-pale);border-radius:var(--radius2);padding:12px;margin:12px 0;display:flex;gap:20px;flex-wrap:wrap;border:1px solid var(--orange-light)">
+      <div><span style="font-size:11px;color:var(--text3)">کل فیس: </span><strong id="fi-total" style="color:var(--navy)">0</strong></div>
+      <div><span style="font-size:11px;color:var(--text3)">جمع: </span><strong id="fi-paid" style="color:var(--green)">0</strong></div>
+      <div><span style="font-size:11px;color:var(--text3)">بقایا: </span><strong id="fi-pend" style="color:var(--red)">0</strong></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="saveFee()">✅ فیس درج کریں</button>
+      <button class="btn btn-outline" onclick="clearFForm()">🔄 صاف</button>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📜</div> فیس تاریخ (تمام — محذوف طلباء بھی)</div>
+    <div class="search-row">
+      <div class="search-wrap"><input id="fs-search" placeholder="نام سے تلاش..." oninput="renderFees()"><span class="search-icon">🔍</span></div>
+      <input type="month" id="fs-month" onchange="renderFees()" style="width:150px">
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>#</th><th>طالب علم</th><th>والد</th><th>رقم</th><th>تاریخ</th><th>مہینہ</th><th>طریقہ</th><th>اسٹیٹس</th><th>ایکشن</th></tr></thead>
+      <tbody id="fees-tbody"></tbody></table>
+      <div id="fees-empty" style="text-align:center;padding:24px;color:var(--text3);display:none">کوئی ریکارڈ نہیں</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXPENSES TAB ===== -->
+<div class="tab-panel" id="tab-expenses">
+  <div id="alrt-e" class="alert alert-success"></div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📤</div> نیا خرچ</div>
+    <div class="form-grid">
+      <div class="form-group"><label>وجہ *</label><input id="e-title" placeholder="مثال: بجلی بل"></div>
+      <div class="form-group"><label>رقم (₨) *</label><input type="number" id="e-amount" placeholder="0"></div>
+      <div class="form-group"><label>تاریخ *</label><input type="date" id="e-date"></div>
+      <div class="form-group"><label>زمرہ</label><select id="e-cat"><option>تنخواہ</option><option>بجلی/گیس</option><option>کرایہ</option><option>سٹیشنری</option><option>مرمت</option><option>انٹرنیٹ</option><option>دیگر</option></select></div>
+      <div class="form-group span2"><label>نوٹ</label><input id="e-note" placeholder="تفصیل"></div>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-red" onclick="saveExp()">💾 محفوظ کریں</button>
+      <button class="btn btn-outline" onclick="clearEForm()">🔄 صاف</button>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📋</div> اخراجات فہرست</div>
+    <div class="search-row">
+      <div class="search-wrap"><input id="es-search" placeholder="تلاش..." oninput="renderExp()"><span class="search-icon">🔍</span></div>
+      <input type="month" id="es-month" onchange="renderExp()" style="width:150px">
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>#</th><th>وجہ</th><th>زمرہ</th><th>رقم</th><th>تاریخ</th><th>نوٹ</th><th>ایکشن</th></tr></thead>
+      <tbody id="exp-tbody"></tbody></table>
+      <div id="exp-empty" style="text-align:center;padding:24px;color:var(--text3);display:none">کوئی خرچ نہیں</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHARTS TAB ===== -->
+<div class="tab-panel" id="tab-charts">
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📈</div> ماہانہ وصولی بمقابلہ اخراجات</div>
+    <div style="margin-bottom:12px;display:flex;gap:16px;font-size:12px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;background:var(--orange);border-radius:3px;display:inline-block"></span>وصولی</span>
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;background:var(--navy);border-radius:3px;display:inline-block"></span>اخراجات</span>
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;background:var(--green);border-radius:3px;display:inline-block"></span>منافع</span>
+    </div>
+    <div class="chart-bars" id="main-chart"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="section-card">
+      <div class="section-title"><div class="icon">💰</div> ماہانہ وصولی (12 ماہ)</div>
+      <div class="chart-bars" id="income-chart"></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title"><div class="icon">📤</div> ماہانہ اخراجات (12 ماہ)</div>
+      <div class="chart-bars" id="expense-chart"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REPORTS TAB ===== -->
+<div class="tab-panel" id="tab-reports">
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📊</div> ماہانہ مالی رپورٹ</div>
+    <div class="search-row" style="margin-bottom:18px">
+      <label style="font-size:12px;color:var(--text2)">مہینہ:</label>
+      <input type="month" id="rpt-month" onchange="renderReports()" style="width:170px">
+      <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ پرنٹ</button>
+      <button class="btn btn-orange btn-sm" onclick="exportRptCSV()">📥 CSV</button>
+    </div>
+    <div class="report-grid" id="rpt-grid"></div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">🧾</div> بقایا جات</div>
+    <div class="table-wrap">
+      <table><thead><tr><th>#</th><th>نام</th><th>والد</th><th>کورس</th><th>کل فیس</th><th>جمع</th><th>بقایا</th><th>ایکشن</th></tr></thead>
+      <tbody id="pend-tbody"></tbody></table>
+      <div id="pend-empty" style="text-align:center;padding:24px;color:var(--green);display:none">✅ تمام فیس ادا ہو چکی</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROGRESS TAB ===== -->
+<div class="tab-panel" id="tab-progress">
+  <div id="alrt-p" class="alert alert-success"></div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">✍️</div> ہفتہ وار پروگریس رپورٹ درج کریں</div>
+    <div class="form-grid">
+      <div class="form-group"><label>طالب علم *</label><select id="pr-student"><option value="">-- منتخب کریں --</option></select></div>
+      <div class="form-group"><label>ہفتہ (تاریخ سے)</label><input type="date" id="pr-week-start"></div>
+      <div class="form-group"><label>ہفتہ (تاریخ تک)</label><input type="date" id="pr-week-end"></div>
+      <div class="form-group"><label>حاضری</label><select id="pr-attend"><option value="full">مکمل</option><option value="partial">جزوی</option><option value="absent">غیر حاضر</option></select></div>
+      <div class="form-group span4"><label>اس ہفتے کیا سیکھا؟ *</label><textarea id="pr-text" placeholder="اس ہفتے کی مکمل تعلیمی رپورٹ یہاں لکھیں — کیا سیکھا، کیا مشق کی، کہاں دشواری آئی..." style="min-height:90px"></textarea></div>
+      <div class="form-group span2"><label>استاد کا تبصرہ</label><textarea id="pr-comment" placeholder="استاد کی رائے..."></textarea></div>
+      <div class="form-group span2"><label>اگلے ہفتے کا ہدف</label><textarea id="pr-goal" placeholder="آئندہ ہفتے کا منصوبہ..."></textarea></div>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-orange" onclick="saveProgress()">💾 رپورٹ محفوظ کریں</button>
+      <button class="btn btn-outline" onclick="clearPForm()">🔄 صاف</button>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📚</div> پروگریس رپورٹس</div>
+    <div class="search-row">
+      <div class="search-wrap"><input id="ps-search" placeholder="نام سے تلاش..." oninput="renderProgress()"><span class="search-icon">🔍</span></div>
+      <select id="ps-student" onchange="renderProgress()" style="width:180px"><option value="">تمام طلباء</option></select>
+    </div>
+    <div id="progress-list"></div>
+    <div id="progress-empty" style="text-align:center;padding:24px;color:var(--text3);display:none">کوئی پروگریس رپورٹ نہیں</div>
+  </div>
+</div>
+
+<!-- ===== SETTINGS TAB ===== -->
+<div class="tab-panel" id="tab-settings">
+  <div class="section-card">
+    <div class="section-title"><div class="icon">🏫</div> ادارے کی معلومات</div>
+    <div class="form-grid">
+      <div class="form-group span2"><label>ادارے کا نام</label><input id="inst-name" placeholder="مدنی ڈیجیٹل سکلز انسٹیٹیوٹ"></div>
+      <div class="form-group span2"><label>پتہ</label><input id="inst-addr" placeholder="قصبہ گجرات"></div>
+      <div class="form-group"><label>موبائل</label><input id="inst-mob" placeholder="03XX-XXXXXXX"></div>
+      <div class="form-group"><label>ای میل</label><input id="inst-email" placeholder="email@example.com"></div>
+    </div>
+    <div class="btn-row" style="margin-top:14px"><button class="btn btn-orange" onclick="saveSettings()">💾 محفوظ</button></div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">📚</div> کورسز</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="new-course" placeholder="نئے کورس کا نام" style="flex:1">
+      <button class="btn btn-orange" onclick="addCourse()">➕ شامل</button>
+    </div>
+    <div id="courses-list" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><div class="icon">🗄️</div> ڈیٹا</div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="backup()">💾 بیک اپ</button>
+      <label class="btn btn-orange" style="cursor:pointer">📂 بحال کریں<input type="file" accept=".json" style="display:none" onchange="restore(event)"></label>
+      <button class="btn btn-red" onclick="clearAll()">⚠️ تمام حذف</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="receipt-modal">
+  <div class="modal">
+    <div class="modal-title">🧾 فیس رسید <button class="modal-close" onclick="closeM('receipt-modal')">✕</button></div>
+    <div id="print-area"><div class="receipt" id="receipt-body"></div></div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ پرنٹ</button>
+      <button class="btn btn-outline" onclick="closeM('receipt-modal')">بند کریں</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-title">⚠️ تصدیق <button class="modal-close" onclick="closeM('confirm-modal')">✕</button></div>
+    <p id="confirm-msg" style="margin-bottom:18px;font-size:13px;color:var(--text2)"></p>
+    <div class="btn-row"><button class="btn btn-red" id="confirm-yes">ہاں، جاری رکھیں</button><button class="btn btn-outline" onclick="closeM('confirm-modal')">نہیں</button></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA LAYER
+// ============================================================
+const MONTHS_UR = ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'];
+
+let db = {
+  students:[], staff:[], fees:[], expenses:[], progress:[],
+  deletedStudents:[], // archive for fee records
+  courses:['کمپیوٹر بیسکس','مائیکروسافٹ آفس','ویب ڈیزائن','گرافک ڈیزائن','اکاؤنٹنگ','انگلش کورس','ٹائپنگ کورس'],
+  settings:{name:'مدنی ڈیجیٹل سکلز انسٹیٹیوٹ قصبہ گجرات',address:'قصبہ گجرات',mobile:'',email:''},
+  nextSId:1, nextStId:1, nextFId:1, nextEId:1, nextPId:1
+};
+
+function loadDB(){ const d=localStorage.getItem('mdsi_fms2'); if(d){try{db=JSON.parse(d);}catch(e){}} }
+function saveDB(){ localStorage.setItem('mdsi_fms2',JSON.stringify(db)); updateDashboard(); buildNotifications(); }
+
+// ============================================================
+// LIVE CLOCK
+// ============================================================
+function tick(){
+  const n=new Date();
+  document.getElementById('live-time').textContent=n.toLocaleTimeString('en-PK');
+  document.getElementById('live-date').textContent=n.toLocaleDateString('ur-PK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+setInterval(tick,1000); tick();
+
+// ============================================================
+// INIT
+// ============================================================
+loadDB();
+const TODAY=new Date().toISOString().split('T')[0];
+const YM=new Date().toISOString().slice(0,7);
+['f-date','e-date','s-admission','pr-week-start','pr-week-end','st-join'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=TODAY;});
+document.getElementById('rpt-month').value=YM;
+document.getElementById('fs-month').value=YM;
+document.getElementById('es-month').value=YM;
+
+renderAll();
+loadSettings();
+buildNotifications();
+
+window.onclick=e=>{ if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('open'); if(!e.target.closest('#notif-btn')&&!e.target.closest('#notif-panel')) document.getElementById('notif-panel').classList.remove('open'); };
+
+// ============================================================
+// TABS
+// ============================================================
+function openTab(name,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(name==='reports'){renderReports();}
+  if(name==='charts'){renderCharts();}
+  if(name==='fees'){populateFeeStudents();}
+  if(name==='progress'){populatePrStudents();}
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+function buildNotifications(){
+  const notifs=[];
+  const todayD=new Date(); todayD.setHours(0,0,0,0);
+  db.students.filter(s=>s.status==='active'&&s.endDate).forEach(s=>{
+    const end=new Date(s.endDate); end.setHours(0,0,0,0);
+    const diff=Math.round((end-todayD)/(1000*60*60*24));
+    if(diff<0){
+      notifs.push({type:'over',name:s.name,msg:`${s.name} کا کورس ${Math.abs(diff)} دن پہلے ختم ہو چکا ہے!`});
+    } else if(diff<=7){
+      notifs.push({type:'warn',name:s.name,msg:`${s.name} کا کورس ${diff===0?'آج':diff+' دن میں'} ختم ہو رہا ہے`});
+    }
+  });
+  document.getElementById('notif-count').textContent=notifs.length;
+  document.getElementById('notif-count').style.display=notifs.length?'flex':'none';
+  document.getElementById('d-expiring').textContent=notifs.length;
+  document.getElementById('notif-list').innerHTML=notifs.length?
+    notifs.map(n=>`<div class="notif-item ${n.type}"><span class="ni-icon">${n.type==='over'?'🔴':'🟡'}</span><div class="ni-text"><span class="ni-name">${n.name}</span><br>${n.msg}</div></div>`).join(''):
+    '<div style="padding:20px;text-align:center;color:var(--text3);font-size:13px">کوئی اطلاع نہیں ✅</div>';
+}
+function toggleNotif(){ document.getElementById('notif-panel').classList.toggle('open'); }
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function updateDashboard(){
+  const m=YM; const todayStr=TODAY;
+  const allFees=db.fees; // includes archived students
+  const todayInc=allFees.filter(f=>f.date===todayStr).reduce((s,f)=>s+f.amount,0);
+  const monthInc=allFees.filter(f=>f.date&&f.date.startsWith(m)).reduce((s,f)=>s+f.amount,0);
+  const monthExp=db.expenses.filter(e=>e.date&&e.date.startsWith(m)).reduce((s,e)=>s+e.amount,0);
+  let pend=0; db.students.forEach(s=>{ const p=paidFor(s.id); pend+=Math.max(0,s.totalFee-p); });
+  const fmt=n=>'₨ '+(n||0).toLocaleString();
+  document.getElementById('d-students').textContent=db.students.length;
+  document.getElementById('d-staff').textContent=db.staff.length;
+  document.getElementById('d-today').textContent=fmt(todayInc);
+  document.getElementById('d-month').textContent=fmt(monthInc);
+  document.getElementById('d-month-exp').textContent=fmt(monthExp);
+  document.getElementById('d-profit').textContent=fmt(monthInc-monthExp);
+  document.getElementById('d-pending').textContent=fmt(pend);
+}
+
+function paidFor(sid){ return db.fees.filter(f=>f.studentId===sid).reduce((a,f)=>a+f.amount,0); }
+
+// ============================================================
+// STUDENT STATUS ROW CLASS
+// ============================================================
+function rowClass(s){
+  if(!s.endDate||s.status!=='active') return '';
+  const today=new Date(); today.setHours(0,0,0,0);
+  const end=new Date(s.endDate); end.setHours(0,0,0,0);
+  const diff=Math.round((end-today)/(1000*60*60*24));
+  if(diff<0) return 'row-complete';
+  if(diff<=7) return 'row-week';
+  return '';
+}
+
+function endDateBadge(s){
+  if(!s.endDate) return '-';
+  const today=new Date(); today.setHours(0,0,0,0);
+  const end=new Date(s.endDate); end.setHours(0,0,0,0);
+  const diff=Math.round((end-today)/(1000*60*60*24));
+  if(diff<0) return `<span class="badge badge-red">مکمل ✓</span>`;
+  if(diff<=7) return `<span class="badge badge-yellow">⚠️ ${diff}دن</span>`;
+  return `<span style="font-size:11px">${s.endDate}</span>`;
+}
+
+// ============================================================
+// STUDENTS
+// ============================================================
+function calcEndDate(){
+  const adm=document.getElementById('s-admission').value;
+  const dur=parseInt(document.getElementById('s-duration').value)||0;
+  if(adm&&dur){
+    const d=new Date(adm); d.setMonth(d.getMonth()+dur);
+    document.getElementById('s-end-date').value=d.toISOString().split('T')[0];
+  }
+}
+function calcInst(){
+  const tf=+document.getElementById('s-total-fee').value||0;
+  const dur=+document.getElementById('s-duration').value||1;
+  if(tf) document.getElementById('s-inst').value=Math.round(tf/dur);
+}
+
+function saveStudent(){
+  const name=document.getElementById('s-name').value.trim();
+  const father=document.getElementById('s-father').value.trim();
+  if(!name||!father){showA('alrt-s','⚠️ نام اور والد کا نام لازمی ہے','error');return;}
+  const eid=document.getElementById('s-id').value;
+  const id=eid?+eid:db.nextSId++;
+  const idx=db.students.findIndex(x=>x.id===id);
+  const s={id,name,father,
+    parentMobile:document.getElementById('s-parent-mobile').value,
+    mobile:document.getElementById('s-mobile').value,
+    gender:document.getElementById('s-gender').value,
+    type:document.getElementById('s-type').value,
+    course:document.getElementById('s-course').value,
+    duration:+document.getElementById('s-duration').value||0,
+    admissionDate:document.getElementById('s-admission').value,
+    endDate:document.getElementById('s-end-date').value,
+    totalFee:+document.getElementById('s-total-fee').value||0,
+    installment:+document.getElementById('s-inst').value||0,
+    address:document.getElementById('s-address').value,
+    note:document.getElementById('s-note').value,
+    status:'active'
+  };
+  if(idx>=0) db.students[idx]=s; else db.students.push(s);
+  saveDB(); renderStudents(); clearSForm();
+  showA('alrt-s','✅ طالب علم محفوظ ہو گیا','success');
+  populateCourseFilters(); populateFeeStudents(); populatePrStudents();
+}
+
+function clearSForm(){
+  ['s-id','s-name','s-father','s-parent-mobile','s-mobile','s-end-date','s-note','s-address','s-duration'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('s-total-fee').value=''; document.getElementById('s-inst').value='';
+  document.getElementById('s-course').value=''; document.getElementById('s-admission').value=TODAY;
+  document.getElementById('s-gender').value='male'; document.getElementById('s-type').value='student';
+}
+
+function editStudent(id){
+  const s=db.students.find(x=>x.id===id); if(!s) return;
+  document.getElementById('s-id').value=s.id;
+  document.getElementById('s-name').value=s.name||'';
+  document.getElementById('s-father').value=s.father||'';
+  document.getElementById('s-parent-mobile').value=s.parentMobile||'';
+  document.getElementById('s-mobile').value=s.mobile||'';
+  document.getElementById('s-gender').value=s.gender||'male';
+  document.getElementById('s-type').value=s.type||'student';
+  document.getElementById('s-course').value=s.course||'';
+  document.getElementById('s-duration').value=s.duration||'';
+  document.getElementById('s-admission').value=s.admissionDate||TODAY;
+  document.getElementById('s-end-date').value=s.endDate||'';
+  document.getElementById('s-total-fee').value=s.totalFee||'';
+  document.getElementById('s-inst').value=s.installment||'';
+  document.getElementById('s-address').value=s.address||'';
+  document.getElementById('s-note').value=s.note||'';
+  document.getElementById('tab-students').scrollIntoView({behavior:'smooth'});
+}
+
+function deleteStudent(id){
+  showConfirm('طالب علم حذف ہو گا لیکن فیس ریکارڈ محفوظ رہے گا۔ جاری رکھیں؟',()=>{
+    const s=db.students.find(x=>x.id===id);
+    if(s){ s.deleted=true; db.deletedStudents.push({...s}); }
+    db.students=db.students.filter(x=>x.id!==id);
+    saveDB(); renderStudents(); populateFeeStudents(); populatePrStudents();
+  });
+}
+
+function toggleSStatus(id){
+  const s=db.students.find(x=>x.id===id);
+  if(s){s.status=s.status==='active'?'inactive':'active';saveDB();renderStudents();}
+}
+
+function renderStudents(){
+  const q=document.getElementById('s-search').value.toLowerCase();
+  const cf=document.getElementById('sf-course').value;
+  const tf=document.getElementById('sf-type').value;
+  const sf=document.getElementById('sf-status').value;
+  let list=db.students.filter(s=>{
+    const m=!q||(s.name+s.father).toLowerCase().includes(q);
+    return m&&(!cf||s.course===cf)&&(!tf||s.type===tf)&&(!sf||s.status===sf);
+  });
+
+  // Gender split (active only)
+  const males=db.students.filter(s=>s.gender==='male'&&s.status==='active');
+  const females=db.students.filter(s=>s.gender==='female'&&s.status==='active');
+  renderGenderTable('male-tbody','male-empty',males);
+  renderGenderTable('female-tbody','female-empty',females);
+
+  const tbody=document.getElementById('all-students-tbody');
+  const empty=document.getElementById('all-s-empty');
+  if(!list.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=list.map((s,i)=>{
+    const paid=paidFor(s.id);
+    const pend=Math.max(0,s.totalFee-paid);
+    const rc=rowClass(s);
+    const typeBadge=s.type==='internship'?'<span class="badge badge-blue">انٹرنشپ</span>':'<span class="badge badge-navy">طالب علم</span>';
+    return `<tr class="${rc}">
+      <td>${i+1}</td><td><strong>${s.name}</strong></td><td>${s.father}</td>
+      <td dir="ltr">${s.parentMobile||'-'}</td>
+      <td>${s.gender==='male'?'👨':'👩'}</td>
+      <td>${s.course||'-'}</td><td>${typeBadge}</td>
+      <td>${endDateBadge(s)}</td>
+      <td>₨${s.totalFee.toLocaleString()}</td>
+      <td style="color:var(--green)">₨${paid.toLocaleString()}</td>
+      <td style="color:${pend>0?'var(--red)':'var(--green)'}">₨${pend.toLocaleString()}</td>
+      <td><span class="badge ${s.status==='active'?'badge-green':'badge-red'}">${s.status==='active'?'فعال':'غیر فعال'}</span></td>
+      <td style="display:flex;gap:4px">
+        <button class="btn btn-sm btn-outline" onclick="editStudent(${s.id})">✏️</button>
+        <button class="btn btn-sm btn-red" onclick="deleteStudent(${s.id})">🗑️</button>
+        <button class="btn btn-sm btn-orange" onclick="toggleSStatus(${s.id})">🔄</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderGenderTable(tbodyId,emptyId,list){
+  const tbody=document.getElementById(tbodyId);
+  const empty=document.getElementById(emptyId);
+  if(!list.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=list.map((s,i)=>{
+    const paid=paidFor(s.id); const pend=Math.max(0,s.totalFee-paid);
+    const rc=rowClass(s);
+    return `<tr class="${rc}">
+      <td>${i+1}</td><td><strong>${s.name}</strong></td><td>${s.course||'-'}</td>
+      <td style="color:${pend>0?'var(--red)':'var(--green)'}">₨${pend.toLocaleString()}</td>
+      <td>${endDateBadge(s)}</td>
+      <td><button class="btn btn-sm btn-outline" onclick="editStudent(${s.id})">✏️</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// STAFF
+// ============================================================
+function saveStaff(){
+  const name=document.getElementById('st-name').value.trim();
+  if(!name){showA('alrt-st','⚠️ نام لازمی ہے','error');return;}
+  const eid=document.getElementById('st-id').value;
+  const id=eid?+eid:db.nextStId++;
+  const idx=db.staff.findIndex(x=>x.id===id);
+  const m={id,name,role:document.getElementById('st-role').value,mobile:document.getElementById('st-mobile').value,
+    gender:document.getElementById('st-gender').value,joinDate:document.getElementById('st-join').value,
+    salary:+document.getElementById('st-salary').value||0,note:document.getElementById('st-note').value,status:'active'};
+  if(idx>=0) db.staff[idx]=m; else db.staff.push(m);
+  saveDB(); renderStaff(); clearStForm();
+  showA('alrt-st','✅ اسٹاف ممبر محفوظ ہو گیا','success');
+}
+
+function clearStForm(){
+  ['st-id','st-name','st-role','st-mobile','st-note'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('st-salary').value=''; document.getElementById('st-join').value=TODAY;
+  document.getElementById('st-gender').value='male';
+}
+
+function deleteStaff(id){
+  showConfirm('اسٹاف ممبر حذف کریں؟',()=>{db.staff=db.staff.filter(x=>x.id!==id);saveDB();renderStaff();});
+}
+
+function renderStaff(){
+  const tbody=document.getElementById('staff-tbody');
+  const empty=document.getElementById('staff-empty');
+  if(!db.staff.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=db.staff.map((m,i)=>`<tr>
+    <td>${i+1}</td><td><strong>${m.name}</strong></td><td>${m.role||'-'}</td>
+    <td dir="ltr">${m.mobile||'-'}</td><td>${m.gender==='male'?'👨':'👩'}</td>
+    <td>${m.joinDate||'-'}</td><td style="color:var(--orange)">₨${(m.salary||0).toLocaleString()}</td>
+    <td><span class="badge badge-green">فعال</span></td>
+    <td><button class="btn btn-sm btn-outline" onclick="editStaff(${m.id})">✏️</button> <button class="btn btn-sm btn-red" onclick="deleteStaff(${m.id})">🗑️</button></td>
+  </tr>`).join('');
+}
+
+function editStaff(id){
+  const m=db.staff.find(x=>x.id===id); if(!m) return;
+  document.getElementById('st-id').value=m.id;
+  document.getElementById('st-name').value=m.name||'';
+  document.getElementById('st-role').value=m.role||'';
+  document.getElementById('st-mobile').value=m.mobile||'';
+  document.getElementById('st-gender').value=m.gender||'male';
+  document.getElementById('st-join').value=m.joinDate||TODAY;
+  document.getElementById('st-salary').value=m.salary||'';
+  document.getElementById('st-note').value=m.note||'';
+}
+
+// ============================================================
+// FEES
+// ============================================================
+function populateFeeStudents(){
+  const sel=document.getElementById('f-student');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">-- منتخب کریں --</option>'+
+    db.students.filter(s=>s.status==='active').map(s=>`<option value="${s.id}">${s.name} — ${s.father}</option>`).join('');
+  sel.value=cur;
+}
+
+function fillFeeInfo(){
+  const id=+document.getElementById('f-student').value;
+  const s=db.students.find(x=>x.id===id);
+  if(!s){['fi-total','fi-paid','fi-pend'].forEach(i=>document.getElementById(i).textContent=0);return;}
+  const paid=paidFor(s.id);
+  document.getElementById('fi-total').textContent='₨'+s.totalFee.toLocaleString();
+  document.getElementById('fi-paid').textContent='₨'+paid.toLocaleString();
+  document.getElementById('fi-pend').textContent='₨'+Math.max(0,s.totalFee-paid).toLocaleString();
+  document.getElementById('f-amount').value=s.installment||'';
+  const d=new Date(); document.getElementById('f-month').value=MONTHS_UR[d.getMonth()]+' '+d.getFullYear();
+}
+
+function saveFee(){
+  const sid=+document.getElementById('f-student').value;
+  const amount=+document.getElementById('f-amount').value;
+  if(!sid||!amount){showA('alrt-f','⚠️ طالب علم اور رقم لازمی ہے','error');return;}
+  const s=db.students.find(x=>x.id===sid);
+  const fee={id:db.nextFId++,studentId:sid,studentName:s.name,fatherName:s.father,
+    amount,date:document.getElementById('f-date').value,
+    month:document.getElementById('f-month').value,
+    method:document.getElementById('f-method').value,
+    note:document.getElementById('f-note').value,
+    archived:false
+  };
+  db.fees.push(fee); saveDB(); renderFees(); clearFForm(); fillFeeInfo();
+  showA('alrt-f','✅ فیس درج ہو گئی','success');
+  showReceipt(fee,s);
+}
+
+function clearFForm(){
+  document.getElementById('f-student').value='';
+  document.getElementById('f-amount').value='';
+  document.getElementById('f-date').value=TODAY;
+  document.getElementById('f-month').value='';
+  document.getElementById('f-note').value='';
+  ['fi-total','fi-paid','fi-pend'].forEach(i=>document.getElementById(i).textContent=0);
+}
+
+function deleteFee(id){
+  showConfirm('یہ فیس ریکارڈ حذف کریں؟',()=>{
+    db.fees=db.fees.filter(f=>f.id!==id); saveDB(); renderFees(); renderStudents();
+  });
+}
+
+function renderFees(){
+  const q=document.getElementById('fs-search').value.toLowerCase();
+  const mf=document.getElementById('fs-month').value;
+  // Show ALL fees including those from deleted students
+  let list=[...db.fees].filter(f=>{
+    const m=!q||(f.studentName||'').toLowerCase().includes(q)||(f.fatherName||'').toLowerCase().includes(q);
+    return m&&(!mf||f.date.startsWith(mf));
+  }).reverse();
+  const tbody=document.getElementById('fees-tbody');
+  const empty=document.getElementById('fees-empty');
+  if(!list.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=list.map((f,i)=>{
+    const isDeleted=!db.students.find(s=>s.id===f.studentId);
+    return `<tr>
+      <td>${i+1}</td><td><strong>${f.studentName||'-'}</strong></td><td>${f.fatherName||'-'}</td>
+      <td style="color:var(--green);font-weight:700">₨${f.amount.toLocaleString()}</td>
+      <td dir="ltr">${f.date}</td><td>${f.month||'-'}</td>
+      <td><span class="badge badge-navy">${f.method}</span></td>
+      <td>${isDeleted?'<span class="badge badge-red">محذوف</span>':'<span class="badge badge-green">فعال</span>'}</td>
+      <td><button class="btn btn-sm btn-outline" onclick="printFeeById(${f.id})">🖨️</button> <button class="btn btn-sm btn-red" onclick="deleteFee(${f.id})">🗑️</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function printFeeById(id){
+  const f=db.fees.find(x=>x.id===id);
+  const s=db.students.find(x=>x.id===f.studentId)||{name:f.studentName,father:f.fatherName,course:'-'};
+  showReceipt(f,s);
+}
+
+// ============================================================
+// EXPENSES
+// ============================================================
+function saveExp(){
+  const title=document.getElementById('e-title').value.trim();
+  const amount=+document.getElementById('e-amount').value;
+  if(!title||!amount){showA('alrt-e','⚠️ وجہ اور رقم لازمی ہے','error');return;}
+  db.expenses.push({id:db.nextEId++,title,amount,date:document.getElementById('e-date').value,
+    category:document.getElementById('e-cat').value,note:document.getElementById('e-note').value});
+  saveDB(); renderExp(); clearEForm();
+  showA('alrt-e','✅ اخراجات محفوظ ہو گئے','success');
+}
+
+function clearEForm(){
+  document.getElementById('e-title').value=''; document.getElementById('e-amount').value='';
+  document.getElementById('e-date').value=TODAY; document.getElementById('e-note').value='';
+}
+
+function deleteExp(id){
+  showConfirm('یہ خرچ حذف کریں؟',()=>{db.expenses=db.expenses.filter(e=>e.id!==id);saveDB();renderExp();});
+}
+
+function renderExp(){
+  const q=document.getElementById('es-search').value.toLowerCase();
+  const mf=document.getElementById('es-month').value;
+  let list=db.expenses.filter(e=>(!q||e.title.toLowerCase().includes(q))&&(!mf||e.date.startsWith(mf))).reverse();
+  const tbody=document.getElementById('exp-tbody');
+  const empty=document.getElementById('exp-empty');
+  if(!list.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=list.map((e,i)=>`<tr>
+    <td>${i+1}</td><td><strong>${e.title}</strong></td>
+    <td><span class="badge badge-orange">${e.category}</span></td>
+    <td style="color:var(--red);font-weight:700">₨${e.amount.toLocaleString()}</td>
+    <td dir="ltr">${e.date}</td><td>${e.note||'-'}</td>
+    <td><button class="btn btn-sm btn-red" onclick="deleteExp(${e.id})">🗑️</button></td>
+  </tr>`).join('');
+}
+
+// ============================================================
+// CHARTS — Monthly
+// ============================================================
+function getMonthlyData(){
+  const d=new Date(); const months=[]; const inc=[]; const exp=[]; const prf=[];
+  for(let i=11;i>=0;i--){
+    const dt=new Date(d.getFullYear(),d.getMonth()-i,1);
+    const ym=dt.toISOString().slice(0,7);
+    const lbl=MONTHS_UR[dt.getMonth()].slice(0,3);
+    months.push(lbl);
+    const mInc=db.fees.filter(f=>f.date&&f.date.startsWith(ym)).reduce((s,f)=>s+f.amount,0);
+    const mExp=db.expenses.filter(e=>e.date&&e.date.startsWith(ym)).reduce((s,e)=>s+e.amount,0);
+    inc.push(mInc); exp.push(mExp); prf.push(mInc-mExp);
+  }
+  return {months,inc,exp,prf};
+}
+
+function renderCharts(){
+  const {months,inc,exp,prf}=getMonthlyData();
+  const maxMain=Math.max(...inc,...exp,1);
+  document.getElementById('main-chart').innerHTML=months.map((m,i)=>`
+    <div class="chart-bar-wrap">
+      <div class="chart-val" style="color:var(--orange)">${inc[i]>0?Math.round(inc[i]/1000)+'k':''}</div>
+      <div style="display:flex;gap:2px;align-items:flex-end;flex:1;width:100%">
+        <div class="chart-bar" style="background:var(--orange);height:${Math.max(4,Math.round(inc[i]/maxMain*120))}px;flex:1"></div>
+        <div class="chart-bar" style="background:var(--navy);height:${Math.max(4,Math.round(exp[i]/maxMain*120))}px;flex:1"></div>
+        <div class="chart-bar" style="background:${prf[i]>=0?'var(--green)':'var(--red)'};height:${Math.max(4,Math.round(Math.abs(prf[i])/maxMain*120))}px;flex:1"></div>
+      </div>
+      <div class="chart-lbl">${m}</div>
+    </div>`).join('');
+
+  const maxI=Math.max(...inc,1);
+  document.getElementById('income-chart').innerHTML=months.map((m,i)=>`
+    <div class="chart-bar-wrap">
+      <div class="chart-val" style="color:var(--orange)">${inc[i]>0?Math.round(inc[i]/1000)+'k':''}</div>
+      <div class="chart-bar" style="background:var(--orange);height:${Math.max(4,Math.round(inc[i]/maxI*120))}px"></div>
+      <div class="chart-lbl">${m}</div>
+    </div>`).join('');
+
+  const maxE=Math.max(...exp,1);
+  document.getElementById('expense-chart').innerHTML=months.map((m,i)=>`
+    <div class="chart-bar-wrap">
+      <div class="chart-val" style="color:var(--red)">${exp[i]>0?Math.round(exp[i]/1000)+'k':''}</div>
+      <div class="chart-bar" style="background:var(--red);height:${Math.max(4,Math.round(exp[i]/maxE*120))}px"></div>
+      <div class="chart-lbl">${m}</div>
+    </div>`).join('');
+}
+
+// ============================================================
+// REPORTS
+// ============================================================
+function renderReports(){
+  const mf=document.getElementById('rpt-month').value;
+  const allFees=db.fees; // includes deleted students
+  const totalInc=allFees.filter(f=>!mf||f.date.startsWith(mf)).reduce((s,f)=>s+f.amount,0);
+  const totalExp=db.expenses.filter(e=>!mf||e.date.startsWith(mf)).reduce((s,e)=>s+e.amount,0);
+  const profit=totalInc-totalExp;
+  let pend=0; db.students.forEach(s=>{pend+=Math.max(0,s.totalFee-paidFor(s.id));});
+  const catExp={}; db.expenses.filter(e=>!mf||e.date.startsWith(mf)).forEach(e=>{catExp[e.category]=(catExp[e.category]||0)+e.amount;});
+  // Monthly comparison
+  const {months,inc,exp}=getMonthlyData();
+  const monthRows=months.map((m,i)=>`<div class="report-row"><span class="lbl">${m}</span><span><span class="val green">₨${inc[i].toLocaleString()}</span> / <span class="val red">₨${exp[i].toLocaleString()}</span></span></div>`).join('');
+
+  document.getElementById('rpt-grid').innerHTML=`
+    <div class="report-box"><h3>💰 ماہانہ خلاصہ</h3>
+      <div class="report-row"><span class="lbl">کل وصولی</span><span class="val green">₨${totalInc.toLocaleString()}</span></div>
+      <div class="report-row"><span class="lbl">کل اخراجات</span><span class="val red">₨${totalExp.toLocaleString()}</span></div>
+      <div class="report-row"><span class="lbl">خالص منافع</span><span class="val ${profit>=0?'green':'red'}">₨${profit.toLocaleString()}</span></div>
+      <div class="report-row"><span class="lbl">کل بقایا</span><span class="val orange">₨${pend.toLocaleString()}</span></div>
+    </div>
+    <div class="report-box"><h3>👨‍🎓 طلباء</h3>
+      <div class="report-row"><span class="lbl">کل طلباء</span><span class="val">${db.students.length}</span></div>
+      <div class="report-row"><span class="lbl">فعال</span><span class="val green">${db.students.filter(s=>s.status==='active').length}</span></div>
+      <div class="report-row"><span class="lbl">انٹرنشپ</span><span class="val">${db.students.filter(s=>s.type==='internship').length}</span></div>
+      <div class="report-row"><span class="lbl">اسٹاف</span><span class="val">${db.staff.length}</span></div>
+      <div class="report-row"><span class="lbl">ادائیگیاں (مہینہ)</span><span class="val orange">${allFees.filter(f=>!mf||f.date.startsWith(mf)).length}</span></div>
+    </div>
+    <div class="report-box"><h3>📤 زمرہ اخراجات</h3>
+      ${Object.entries(catExp).length?Object.entries(catExp).map(([k,v])=>`<div class="report-row"><span class="lbl">${k}</span><span class="val red">₨${v.toLocaleString()}</span></div>`).join(''):'<p style="color:var(--text3);text-align:center;padding:12px;font-size:12px">کوئی خرچ نہیں</p>'}
+    </div>
+    <div class="report-box"><h3>📈 12 ماہ (وصولی / اخراجات)</h3>${monthRows}</div>`;
+
+  // Pending
+  const ps=db.students.filter(s=>{const p=paidFor(s.id);return s.totalFee-p>0;});
+  const ptb=document.getElementById('pend-tbody');
+  const pe=document.getElementById('pend-empty');
+  if(!ps.length){ptb.innerHTML='';pe.style.display='block';return;}
+  pe.style.display='none';
+  ptb.innerHTML=ps.map((s,i)=>{const paid=paidFor(s.id);const p=s.totalFee-paid;
+    return `<tr><td>${i+1}</td><td><strong>${s.name}</strong></td><td>${s.father}</td><td>${s.course||'-'}</td>
+      <td>₨${s.totalFee.toLocaleString()}</td><td style="color:var(--green)">₨${paid.toLocaleString()}</td>
+      <td style="color:var(--red);font-weight:700">₨${p.toLocaleString()}</td>
+      <td><button class="btn btn-sm btn-green" onclick="openTab('fees',document.querySelectorAll('.tab-btn')[2]);document.getElementById('f-student').value=${s.id};fillFeeInfo()">💰 درج</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function exportRptCSV(){
+  const rows=[['نام','والد','کورس','کل فیس','جمع','بقایا']];
+  db.students.forEach(s=>{const p=paidFor(s.id);rows.push([s.name,s.father,s.course||'',s.totalFee,p,Math.max(0,s.totalFee-p)]);});
+  dlCSV(rows,'report.csv');
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function populatePrStudents(){
+  const opts='<option value="">-- منتخب کریں --</option>'+db.students.filter(s=>s.status==='active').map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  document.getElementById('pr-student').innerHTML=opts;
+  document.getElementById('ps-student').innerHTML='<option value="">تمام طلباء</option>'+db.students.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+}
+
+function saveProgress(){
+  const sid=+document.getElementById('pr-student').value;
+  const text=document.getElementById('pr-text').value.trim();
+  if(!sid||!text){showA('alrt-p','⚠️ طالب علم اور رپورٹ لازمی ہے','error');return;}
+  const s=db.students.find(x=>x.id===sid);
+  db.progress.push({id:db.nextPId++,studentId:sid,studentName:s.name,
+    weekStart:document.getElementById('pr-week-start').value,
+    weekEnd:document.getElementById('pr-week-end').value,
+    attendance:document.getElementById('pr-attend').value,
+    text,comment:document.getElementById('pr-comment').value,
+    goal:document.getElementById('pr-goal').value,
+    date:TODAY
+  });
+  saveDB(); renderProgress(); clearPForm();
+  showA('alrt-p','✅ پروگریس رپورٹ محفوظ ہو گئی','success');
+}
+
+function clearPForm(){
+  document.getElementById('pr-student').value='';
+  document.getElementById('pr-text').value='';
+  document.getElementById('pr-comment').value='';
+  document.getElementById('pr-goal').value='';
+  document.getElementById('pr-attend').value='full';
+  document.getElementById('pr-week-start').value=TODAY;
+  document.getElementById('pr-week-end').value=TODAY;
+}
+
+function deleteProgress(id){
+  showConfirm('پروگریس رپورٹ حذف کریں؟',()=>{db.progress=db.progress.filter(p=>p.id!==id);saveDB();renderProgress();});
+}
+
+function renderProgress(){
+  const q=document.getElementById('ps-search').value.toLowerCase();
+  const sf=+document.getElementById('ps-student').value;
+  let list=db.progress.filter(p=>(!q||p.studentName.toLowerCase().includes(q))&&(!sf||p.studentId===sf)).reverse();
+  const cont=document.getElementById('progress-list');
+  const empty=document.getElementById('progress-empty');
+  if(!list.length){cont.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  const attMap={full:'مکمل ✅',partial:'جزوی ⚡',absent:'غیر حاضر ❌'};
+  cont.innerHTML=list.map(p=>`
+    <div class="progress-card">
+      <div class="pc-header">
+        <div>
+          <span class="pc-name">${p.studentName}</span>
+          <span class="badge badge-orange" style="margin-right:8px">${attMap[p.attendance]||p.attendance}</span>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="pc-date">${p.weekStart} تا ${p.weekEnd}</span>
+          <button class="btn btn-sm btn-red" onclick="deleteProgress(${p.id})">🗑️</button>
+        </div>
+      </div>
+      <div class="pc-text"><strong>📖 اس ہفتے سیکھا:</strong><br>${p.text}</div>
+      ${p.comment?`<div class="pc-text" style="margin-top:8px;color:var(--navy2)"><strong>💬 استاد کا تبصرہ:</strong><br>${p.comment}</div>`:''}
+      ${p.goal?`<div class="pc-text" style="margin-top:8px;color:var(--orange)"><strong>🎯 اگلے ہفتے کا ہدف:</strong><br>${p.goal}</div>`:''}
+    </div>`).join('');
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+function loadSettings(){
+  const s=db.settings;
+  document.getElementById('inst-name').value=s.name||'';
+  document.getElementById('inst-addr').value=s.address||'';
+  document.getElementById('inst-mob').value=s.mobile||'';
+  document.getElementById('inst-email').value=s.email||'';
+  renderCourses(); populateCourseFilters(); populateFeeStudents(); populatePrStudents();
+}
+
+function saveSettings(){
+  db.settings={name:document.getElementById('inst-name').value,address:document.getElementById('inst-addr').value,
+    mobile:document.getElementById('inst-mob').value,email:document.getElementById('inst-email').value};
+  saveDB(); alert('✅ سیٹنگز محفوظ ہو گئیں!');
+}
+
+function addCourse(){
+  const v=document.getElementById('new-course').value.trim(); if(!v) return;
+  if(!db.courses.includes(v)) db.courses.push(v);
+  document.getElementById('new-course').value='';
+  saveDB(); renderCourses(); populateCourseFilters();
+}
+
+function deleteCourse(c){
+  db.courses=db.courses.filter(x=>x!==c); saveDB(); renderCourses(); populateCourseFilters();
+}
+
+function renderCourses(){
+  document.getElementById('courses-list').innerHTML=db.courses.map(c=>`
+    <span style="background:var(--navy);color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;display:inline-flex;align-items:center;gap:6px">
+      ${c}<button onclick="deleteCourse('${c}')" style="background:none;border:none;color:var(--orange2);cursor:pointer;font-size:13px;padding:0;line-height:1">✕</button>
+    </span>`).join('');
+  const sel=document.getElementById('s-course');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">-- منتخب کریں --</option>'+db.courses.map(c=>`<option value="${c}">${c}</option>`).join('');
+  sel.value=cur;
+}
+
+function populateCourseFilters(){
+  ['sf-course'].forEach(id=>{
+    const sel=document.getElementById(id); if(!sel) return;
+    const cur=sel.value;
+    sel.innerHTML='<option value="">تمام کورسز</option>'+db.courses.map(c=>`<option value="${c}">${c}</option>`).join('');
+    sel.value=cur;
+  });
+  renderCourses();
+}
+
+// ============================================================
+// CSV
+// ============================================================
+function importCSV(event,type){
+  const file=event.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const lines=e.target.result.split('\n').filter(l=>l.trim());
+    let count=0;
+    lines.slice(1).forEach(line=>{
+      const cols=line.split(',').map(c=>c.trim().replace(/^"|"$/g,''));
+      if(cols.length>=2&&cols[0]){
+        db.students.push({id:db.nextSId++,name:cols[0],father:cols[1]||'',parentMobile:cols[2]||'',
+          mobile:cols[3]||'',gender:'male',type:'student',course:cols[4]||'',duration:+cols[5]||0,
+          admissionDate:cols[6]||TODAY,endDate:cols[7]||'',totalFee:+cols[8]||0,
+          installment:+cols[9]||0,address:cols[10]||'',note:cols[11]||'',status:'active'});
+        count++;
+      }
+    });
+    saveDB(); renderStudents(); populateFeeStudents(); populatePrStudents();
+    alert(`✅ ${count} ریکارڈ امپورٹ ہوئے!`);
+  };
+  reader.readAsText(file,'UTF-8'); event.target.value='';
+}
+
+function exportStudentsCSV(){
+  const rows=[['نام','والد','والدین موبائل','طالب علم موبائل','جنس','قسم','کورس','دورانیہ','داخلہ','ختم','کل فیس','قسط','جمع','بقایا']];
+  db.students.forEach(s=>{const p=paidFor(s.id);rows.push([s.name,s.father,s.parentMobile||'',s.mobile||'',s.gender,s.type,s.course||'',s.duration||'',s.admissionDate||'',s.endDate||'',s.totalFee,s.installment,p,Math.max(0,s.totalFee-p)]);});
+  dlCSV(rows,'students.csv');
+}
+
+function dlCSV(rows,fn){
+  const bom='\uFEFF';
+  const c=bom+rows.map(r=>r.map(x=>`"${x}"`).join(',')).join('\n');
+  const a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(c); a.download=fn; a.click();
+}
+
+// ============================================================
+// RECEIPT
+// ============================================================
+function showReceipt(fee,student){
+  const s=db.settings;
+  document.getElementById('receipt-body').innerHTML=`
+    <div class="receipt-header">
+      <h2>${s.name||'مدنی ڈیجیٹل سکلز انسٹیٹیوٹ قصبہ گجرات'}</h2>
+      <p>${s.address||''} ${s.mobile?'| '+s.mobile:''}</p>
+      <p>Prepared by: Malik Rashid Manjotha CEO</p>
+    </div>
+    <div class="receipt-row"><span>رسید نمبر</span><span dir="ltr">#${fee.id}</span></div>
+    <div class="receipt-row"><span>طالب علم</span><span>${student.name}</span></div>
+    <div class="receipt-row"><span>والد</span><span>${student.father}</span></div>
+    <div class="receipt-row"><span>کورس</span><span>${student.course||'-'}</span></div>
+    <div class="receipt-row"><span>مہینہ</span><span>${fee.month||'-'}</span></div>
+    <div class="receipt-row"><span>تاریخ</span><span dir="ltr">${fee.date}</span></div>
+    <div class="receipt-row"><span>طریقہ</span><span>${fee.method}</span></div>
+    ${fee.note?`<div class="receipt-row"><span>نوٹ</span><span>${fee.note}</span></div>`:''}
+    <div class="receipt-total"><span>ادا شدہ رقم</span><span>₨ ${fee.amount.toLocaleString()}</span></div>
+    <p style="text-align:center;font-size:10px;color:var(--text3);margin-top:10px">شکریہ — کمپیوٹر سے تیار کردہ رسید</p>`;
+  document.getElementById('receipt-modal').classList.add('open');
+}
+
+// ============================================================
+// BACKUP / RESTORE
+// ============================================================
+function backup(){
+  const a=document.createElement('a');
+  a.href='data:application/json,'+encodeURIComponent(JSON.stringify(db));
+  a.download='mdsi_backup_'+TODAY+'.json'; a.click();
+}
+function restore(event){
+  const file=event.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=e=>{try{db=JSON.parse(e.target.result);saveDB();renderAll();loadSettings();alert('✅ ڈیٹا بحال!');}catch(e){alert('❌ فائل غلط!');}};
+  r.readAsText(file); event.target.value='';
+}
+function clearAll(){
+  showConfirm('⚠️ تمام ڈیٹا مستقل حذف ہو جائے گا!',()=>{
+    db={students:[],staff:[],fees:[],expenses:[],progress:[],deletedStudents:[],
+      courses:['کمپیوٹر بیسکس','مائیکروسافٹ آفس','ویب ڈیزائن','گرافک ڈیزائن','اکاؤنٹنگ','انگلش کورس','ٹائپنگ کورس'],
+      settings:{name:'مدنی ڈیجیٹل سکلز انسٹیٹیوٹ قصبہ گجرات',address:'قصبہ گجرات',mobile:'',email:''},
+      nextSId:1,nextStId:1,nextFId:1,nextEId:1,nextPId:1};
+    saveDB();renderAll();loadSettings();alert('✅ ڈیٹا حذف!');
+  });
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function renderAll(){updateDashboard();renderStudents();renderStaff();renderFees();renderExp();renderProgress();}
+function showA(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className='alert alert-'+(type||'success')+' show';setTimeout(()=>el.classList.remove('show'),3500);}
+function showConfirm(msg,cb){document.getElementById('confirm-msg').textContent=msg;document.getElementById('confirm-modal').classList.add('open');document.getElementById('confirm-yes').onclick=()=>{closeM('confirm-modal');cb();};}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+</script>
+</body>
+</html>
