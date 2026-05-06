@@ -1,0 +1,10 @@
+# Netlify Redirects — Madni EduManager PWA
+
+# Service Worker ko root se serve karo (zaroor chahiye PWA ke liye)
+/service-worker.js /service-worker.js 200
+
+# Manifest ko serve karo
+/manifest.json /manifest.json 200
+
+# Baaki sab requests index.html pe bhejo (SPA routing)
+/* /index.html 200
